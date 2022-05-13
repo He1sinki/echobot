@@ -39,10 +39,18 @@ readConfig().then(async config => {
         }
         let options: ConfigOptions = redirect.options ?? {};
         if (map) {
-            for (let i = 0; i < redirect.sources.length; i++) {
+            skip: for (let i = 0; i < redirect.sources.length; i++) {
                 let source = redirect.sources[i];
                 let destination = redirect.destinations[i];
                 let data = redirects.get(source) ?? [];
+
+                // skip duplicate redirects
+                for (let dataCheck of data) {
+                    if (dataCheck.destination == destination) {
+                        console.warn("config: redirect from `" + source + "` to `" + destination + "` is a duplicate, I will accept the only the first redirect to avoid duplicate redirects");
+                        continue skip;
+                    }
+                }
 
                 data.push({destination, options});
                 redirects.set(source, data);
