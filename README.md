@@ -22,7 +22,7 @@ To setup and run this bot, you must first [install Node.js](https://nodejs.org/e
 
 ### Heroku
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/NXG-FIVERR/ryan-echobot/tree/master)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/He1sinki/echobot/tree/master)
 
 This bot is compatible with Heroku. You can use the button above to deploy it quickly. 
 
