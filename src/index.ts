@@ -33,22 +33,37 @@ readConfig().then(async config => {
         if(!Array.isArray(redirect.destinations)) throw "config: redirect has no defined `destinations`";
         if(redirect.sources.length==0) throw "config: redirect has no `sources`";
         if(redirect.destinations.length==0) throw "config: redirect has no `destinations`";
-
+        let map= false;
+        if(redirect.sources.length==redirect.destinations.length){
+            map= true;
+        }
         let options: ConfigOptions = redirect.options ?? {};
-        for(let source of redirect.sources){
-            skip: for(let destination of redirect.destinations){
+        if (map) {
+            for (let i = 0; i < redirect.sources.length; i++) {
+                let source = redirect.sources[i];
+                let destination = redirect.destinations[i];
                 let data = redirects.get(source) ?? [];
 
-                // skip duplicate redirects
-                for(let dataCheck of data){
-                    if(dataCheck.destination==destination){
-                        console.warn("config: redirect from `"+source+"` to `"+destination+"` is a duplicate, I will accept the only the first redirect to avoid duplicate redirects");
-                        continue skip;
-                    }
-                }
-
-                data.push({ destination, options });
+                data.push({destination, options});
                 redirects.set(source, data);
+            }
+        }
+        else{
+            for(let source of redirect.sources){
+                skip: for(let destination of redirect.destinations){
+                    let data = redirects.get(source) ?? [];
+
+                    // skip duplicate redirects
+                    for(let dataCheck of data){
+                        if(dataCheck.destination==destination){
+                            console.warn("config: redirect from `"+source+"` to `"+destination+"` is a duplicate, I will accept the only the first redirect to avoid duplicate redirects");
+                            continue skip;
+                        }
+                    }
+    
+                    data.push({ destination, options });
+                    redirects.set(source, data);
+                }
             }
         }
     }
