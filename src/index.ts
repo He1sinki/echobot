@@ -3,8 +3,13 @@ import { readConfig } from "./readConfig";
 import { ConfigOptions, SendableChannel } from "./types";
 import { startWebServer } from "./webServer";
 import { forwardMessage } from "./forwardMessage";
+import * as http from "http";
 
 startWebServer();
+
+setInterval(function () {
+    http.get("http://discord-forward-bot.herokuapp.com");
+},300000); // every 5 minutes (300000)
 
 readConfig().then(async config => {
 
